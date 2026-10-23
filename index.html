@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MORRIIT | 官方网站</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            500: '#00f2fe',
+                            600: '#4facfe',
+                            900: '#0b132b',
+                            950: '#050814',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card:hover {
+            border-color: rgba(79, 172, 254, 0.4);
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-brand-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-brand-950">
+
+    <!-- 顶部导航栏 -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center gap-3 group">
+                    <div class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-slate-900 border border-slate-700/50 group-hover:border-brand-500/50 transition-colors">
+                        <!-- 自定义齿轮与M矢量Logo图标 -->
+                        <svg class="w-6 h-6 text-brand-500" viewBox="0 0 100 100" fill="currentColor">
+                            <path d="M50,15 L55,15 L57,22 L62,24 L68,19 L72,23 L67,29 L69,34 L76,36 L76,42 L69,44 L68,49 L73,55 L69,59 L63,54 L58,56 L56,63 L50,63 L48,56 L43,54 L37,59 L33,55 L38,49 L37,44 L30,42 L30,36 L37,34 L38,29 L33,23 L37,19 L43,24 L48,22 Z" fill="none" stroke="currentColor" stroke-width="6"/>
+                            <text x="50" y="46" font-family="Arial, sans-serif" font-weight="900" font-size="28" text-anchor="middle" fill="currentColor">M</text>
+                        </svg>
+                    </div>
+                    <span class="font-extrabold text-xl tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-brand-500">
+                        MORRIIT
+                    </span>
+                </a>
+
+                <!-- 桌面端菜单 -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#home" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">首页</a>
+                    <a href="#products" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">产品页</a>
+                    <a href="#did-you-know" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">你知道吗？</a>
+                    <a href="#contact" class="text-sm font-medium text-slate-300 hover:text-brand-500 transition-colors">联系我们</a>
+                </nav>
+
+                <!-- 管理员控制入口 -->
+                <div class="flex items-center gap-3">
+                    <button id="admin-toggle-btn" onclick="openAdminModal()" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-lock text-brand-500" id="admin-icon"></i>
+                        <span id="admin-btn-text">管理员登录</span>
+                    </button>
+                    <!-- 移动端菜单按钮 -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-slate-400 hover:text-white p-2">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端下拉菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800 bg-brand-950/95 px-4 pt-2 pb-4 space-y-2">
+            <a href="#home" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-slate-300 hover:text-brand-500">首页</a>
+            <a href="#products" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-slate-300 hover:text-brand-500">产品页</a>
+            <a href="#did-you-know" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-slate-300 hover:text-brand-500">你知道吗？</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-slate-300 hover:text-brand-500">联系我们</a>
+        </div>
+    </header>
+
+    <!-- 主体内容 -->
+    <main class="flex-grow pt-16">
+
+        <!-- 1. 首页 Section -->
+        <section id="home" class="relative min-h-[85vh] flex items-center justify-center px-4 overflow-hidden">
+            <!-- 背景光晕 -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+            <div class="relative max-w-4xl mx-auto text-center space-y-8 py-20">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-500 text-xs font-semibold tracking-wide">
+                    <i class="fa-solid fa-sparkles"></i> 官方探索空间
+                </div>
+                
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight">
+                    欢迎来到我的网页
+                </h1>
+                
+                <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto font-normal">
+                    欢迎来到 MORRIIT。我们致力于探索技术与设计的边界。如有任何需求或疑问，随时欢迎与我们沟通。
+                </p>
+
+                <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#contact" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-600 text-brand-950 font-bold transition-all transform hover:-translate-y-0.5 shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-envelope"></i> 联系我们
+                    </a>
+                    <a href="#products" class="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-slate-700 bg-slate-900/50 hover:bg-slate-800 text-slate-300 font-semibold transition-all flex items-center justify-center gap-2">
+                        浏览产品 <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 产品页 Section -->
+        <section id="products" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-800/60">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
+                        <i class="fa-solid fa-cube text-brand-500"></i> 产品页
+                    </h2>
+                    <p class="text-slate-400 mt-2 text-sm">精选产品与解决方案展示</p>
+                </div>
+                <!-- 管理员添加按钮 -->
+                <div class="admin-only hidden">
+                    <button onclick="openAddModal('product')" class="px-4 py-2 bg-brand-500 hover:bg-brand-600 text-brand-950 font-bold rounded-lg text-sm transition flex items-center gap-2 shadow-lg shadow-brand-500/20">
+                        <i class="fa-solid fa-plus"></i> 上传新产品
+                    </button>
+                </div>
+            </div>
+
+            <!-- 产品展示网格 -->
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 动态渲染产品列表 -->
+            </div>
+        </section>
+
+        <!-- 3. 你知道吗？ Section -->
+        <section id="did-you-know" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-800/60 bg-slate-900/20 rounded-3xl my-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
+                        <i class="fa-solid fa-lightbulb text-amber-400"></i> 你知道吗？
+                    </h2>
+                    <p class="text-slate-400 mt-2 text-sm">分享有趣的技术知识与科技科普小贴士</p>
+                </div>
+                <!-- 管理员添加按钮 -->
+                <div class="admin-only hidden">
+                    <button onclick="openAddModal('know')" class="px-4 py-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold rounded-lg text-sm transition flex items-center gap-2 shadow-lg shadow-amber-400/20">
+                        <i class="fa-solid fa-plus"></i> 发布科普新条目
+                    </button>
+                </div>
+            </div>
+
+            <!-- 科普卡片网格 -->
+            <div id="know-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 动态渲染条目 -->
+            </div>
+        </section>
+
+        <!-- 4. 联系我们 Section -->
+        <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-slate-800/60 text-center">
+            <div class="space-y-4 mb-12">
+                <h2 class="text-3xl font-extrabold text-white tracking-tight">联系我们</h2>
+                <p class="text-slate-400 max-w-lg mx-auto text-sm">如有任何问题、合作意向或技术交流，欢迎随时通过电子邮件联系我们。</p>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl max-w-lg mx-auto space-y-6">
+                <div class="w-16 h-16 bg-brand-500/10 text-brand-500 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/20">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">官方电子邮箱</div>
+                    <a href="mailto:support@morriit.com" class="text-2xl font-bold text-white hover:text-brand-500 transition-colors">
+                        support@morriit.com
+                    </a>
+                </div>
+                <div class="pt-2">
+                    <a href="mailto:support@morriit.com" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-sm transition border border-slate-700">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i> 直接发送邮件
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="border-t border-slate-800/80 bg-brand-950 py-8 px-4 text-center text-slate-500 text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-300">MORRIIT</span>
+                <span>&copy; 2026 保留所有权利</span>
+            </div>
+            <div class="text-xs text-slate-600">
+                保持真实 · 坚持品质
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= 弹窗Modal区域 ================= -->
+
+    <!-- 管理员登录 Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass p-6 sm:p-8 rounded-2xl max-w-md w-full relative space-y-6 border border-slate-700">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center mx-auto text-brand-500 text-xl border border-slate-700">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">管理员认证</h3>
+                <p class="text-xs text-slate-400">请输入管理员账号与密码以开启修改权限</p>
+            </div>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">账号</label>
+                    <input type="text" id="admin-user" required class="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand-500 text-sm" placeholder="输入账号">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">密码</label>
+                    <input type="password" id="admin-pass" required class="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand-500 text-sm" placeholder="输入密码">
+                </div>
+                <div id="login-error" class="text-red-400 text-xs hidden">账号或密码错误，请重试</div>
+                <button type="submit" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-brand-950 font-bold rounded-lg text-sm transition">
+                    登录系统
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 上传/发布内容 Modal -->
+    <div id="add-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass p-6 sm:p-8 rounded-2xl max-w-lg w-full relative space-y-6 border border-slate-700 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAddModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="space-y-1">
+                <h3 id="add-modal-title" class="text-xl font-bold text-white">上传新条目</h3>
+                <p class="text-xs text-slate-400">填写的相关信息将直接更新并展示给全站访客</p>
+            </div>
+            <form onsubmit="handleAddItem(event)" class="space-y-4">
+                <input type="hidden" id="add-item-type">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">标题 / 名称</label>
+                    <input type="text" id="item-title" required class="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand-500 text-sm" placeholder="输入标题">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">图片选择</label>
+                    <input type="file" id="item-image-file" accept="image/*" onchange="previewImage(this)" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-brand-500 hover:file:bg-slate-700">
+                    <div id="image-preview-container" class="mt-3 hidden">
+                        <img id="image-preview" src="" class="w-full h-36 object-cover rounded-lg border border-slate-700">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">详细描述 / 文本</label>
+                    <textarea id="item-desc" rows="4" required class="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand-500 text-sm" placeholder="输入详细介绍内容..."></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-brand-950 font-bold rounded-lg text-sm transition">
+                    确认发布
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript 交互与数据保存逻辑 -->
+    <script>
+        // 核心状态管理
+        let isAdmin = false;
+        let currentBase64Image = '';
+
+        // 默认初始化数据
+        const defaultProducts = [
+            { id: 'p1', title: '智能控制系统解决方案', desc: '基于物联网的集成控制平台，实现高效自动化管理与数据实时洞察。', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80' },
+            { id: 'p2', title: '高精度数字接口模块', desc: '工业级高性能接口组件，提供低延迟传输与卓越的系统稳定性。', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80' }
+        ];
+
+        const defaultKnowList = [
+            { id: 'k1', title: '为什么静态网站访问速度更快？', desc: '静态网站直接由 CDN 节点交付预先生成的文件，省去了服务器端数据库查询和实时渲染的延迟。', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80' }
+        ];
+
+        // 页面初始化加载
+        document.addEventListener('DOMContentLoaded', () => {
+            // 加载管理员登录状态
+            if (localStorage.getItem('morriit_admin') === 'true') {
+                setAdminState(true);
+            }
+            renderContent();
+        });
+
+        // 渲染页面动态内容
+        function renderContent() {
+            renderProducts();
+            renderKnowList();
+            updateAdminUI();
+        }
+
+        // 渲染产品
+        function renderProducts() {
+            const products = JSON.parse(localStorage.getItem('morriit_products')) || defaultProducts;
+            const container = document.getElementById('products-grid');
+            
+            if (products.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-sm">暂无产品记录，请登录管理员后添加</div>`;
+                return;
+            }
+
+            container.innerHTML = products.map(item => `
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300">
+                    <div class="h-48 overflow-hidden bg-slate-900 relative">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-bold text-white group-hover:text-brand-500 transition-colors">${escapeHtml(item.title)}</h3>
+                            <p class="text-xs text-slate-400 leading-relaxed">${escapeHtml(item.desc)}</p>
+                        </div>
+                        ${isAdmin ? `
+                            <div class="pt-2 border-t border-slate-800 flex justify-end">
+                                <button onclick="deleteItem('product', '${item.id}')" class="text-xs text-red-400 hover:text-red-300 flex items-center gap-1">
+                                    <i class="fa-solid fa-trash-can"></i> 删除产品
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 渲染“你知道吗？”
+        function renderKnowList() {
+            const knowList = JSON.parse(localStorage.getItem('morriit_know')) || defaultKnowList;
+            const container = document.getElementById('know-grid');
+
+            if (knowList.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-sm">暂无知识卡片，请登录管理员后添加</div>`;
+                return;
+            }
+
+            container.innerHTML = knowList.map(item => `
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300">
+                    ${item.image ? `
+                        <div class="h-40 overflow-hidden bg-slate-900">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                    ` : ''}
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div class="space-y-2">
+                            <h3 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">${escapeHtml(item.title)}</h3>
+                            <p class="text-xs text-slate-400 leading-relaxed">${escapeHtml(item.desc)}</p>
+                        </div>
+                        ${isAdmin ? `
+                            <div class="pt-2 border-t border-slate-800 flex justify-end">
+                                <button onclick="deleteItem('know', '${item.id}')" class="text-xs text-red-400 hover:text-red-300 flex items-center gap-1">
+                                    <i class="fa-solid fa-trash-can"></i> 删除条目
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 管理员登录处理
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('admin-user').value.trim();
+            const p = document.getElementById('admin-pass').value.trim();
+
+            if (u === 'admin' && p === 'weien2008') {
+                setAdminState(true);
+                closeAdminModal();
+                document.getElementById('login-error').classList.add('hidden');
+                document.getElementById('admin-user').value = '';
+                document.getElementById('admin-pass').value = '';
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        }
+
+        function setAdminState(state) {
+            isAdmin = state;
+            localStorage.setItem('morriit_admin', state ? 'true' : 'false');
+            updateAdminUI();
+            renderContent();
+        }
+
+        function updateAdminUI() {
+            const adminElements = document.querySelectorAll('.admin-only');
+            const btnText = document.getElementById('admin-btn-text');
+            const adminIcon = document.getElementById('admin-icon');
+
+            if (isAdmin) {
+                adminElements.forEach(el => el.classList.remove('hidden'));
+                btnText.textContent = '退出管理员';
+                adminIcon.className = 'fa-solid fa-unlock text-emerald-400';
+            } else {
+                adminElements.forEach(el => el.classList.add('hidden'));
+                btnText.textContent = '管理员登录';
+                adminIcon.className = 'fa-solid fa-lock text-brand-500';
+            }
+        }
+
+        function openAdminModal() {
+            if (isAdmin) {
+                if (confirm('是否确认退出管理员模式？')) {
+                    setAdminState(false);
+                }
+            } else {
+                document.getElementById('admin-modal').classList.remove('hidden');
+            }
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        // 图片预览与 Base64 转换
+        function previewImage(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentBase64Image = e.target.result;
+                    document.getElementById('image-preview').src = currentBase64Image;
+                    document.getElementById('image-preview-container').classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // 打开添加项目弹窗
+        function openAddModal(type) {
+            document.getElementById('add-item-type').value = type;
+            document.getElementById('add-modal-title').textContent = type === 'product' ? '上传新产品' : '发布科普新条目';
+            document.getElementById('add-modal').classList.remove('hidden');
+        }
+
+        function closeAddModal() {
+            document.getElementById('add-modal').classList.add('hidden');
+            document.getElementById('item-title').value = '';
+            document.getElementById('item-desc').value = '';
+            document.getElementById('item-image-file').value = '';
+            document.getElementById('image-preview-container').classList.add('hidden');
+            currentBase64Image = '';
+        }
+
+        // 添加项目保存
+        function handleAddItem(e) {
+            e.preventDefault();
+            const type = document.getElementById('add-item-type').value;
+            const title = document.getElementById('item-title').value.trim();
+            const desc = document.getElementById('item-desc').value.trim();
+            const image = currentBase64Image || 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80';
+
+            const newItem = {
+                id: 'custom_' + Date.now(),
+                title,
+                desc,
+                image
+            };
+
+            const key = type === 'product' ? 'morriit_products' : 'morriit_know';
+            const defaultList = type === 'product' ? defaultProducts : defaultKnowList;
+            const currentList = JSON.parse(localStorage.getItem(key)) || defaultList;
+
+            currentList.unshift(newItem);
+            localStorage.setItem(key, JSON.stringify(currentList));
+
+            closeAddModal();
+            renderContent();
+        }
+
+        // 删除项目
+        function deleteItem(type, id) {
+            if (!confirm('确定要删除该条目吗？此操作无法撤销。')) return;
+
+            const key = type === 'product' ? 'morriit_products' : 'morriit_know';
+            const defaultList = type === 'product' ? defaultProducts : defaultKnowList;
+            let currentList = JSON.parse(localStorage.getItem(key)) || defaultList;
+
+            currentList = currentList.filter(item => item.id !== id);
+            localStorage.setItem(key, JSON.stringify(currentList));
+
+            renderContent();
+        }
+
+        // 辅助函数：防止 HTML 注入
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, function(m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[m];
+            });
+        }
+
+        // 移动端菜单切换
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>.
